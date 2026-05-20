@@ -133,21 +133,35 @@ export async function getUserRatingHistory(handle) {
 /**
  * Fetch standings for a specific contest (for virtual rating estimation)
  */
-export async function getContestStandings(contestId, count = 5000) {
-  const res = await fetch(`${CF_API}/contest.standings?contestId=${contestId}&from=1&count=${count}`);
-  const data = await res.json();
-  if (data.status !== 'OK') throw new Error('CF API error: ' + (data.comment || 'Unknown'));
-  return {
-    contest: data.result.contest,
-    problems: data.result.problems,
-    rows: data.result.rows.map(row => ({
-      rank: row.rank,
-      party: row.party,
-      points: row.points,
-      penalty: row.penalty,
-      problemResults: row.problemResults,
-    })),
-  };
+export async function getContestStandings(contestId, count = 500) {
+  const controller = new AbortController();
+  const timeout = setTimeout(() => controller.abort(), 15000); // 15s timeout
+  try {
+    const res = await fetch(
+      `${CF_API}/contest.standings?contestId=${contestId}&from=1&count=${count}`,
+      { signal: controller.signal }
+    );
+    clearTimeout(timeout);
+    const data = await res.json();
+    if (data.status !== 'OK') throw new Error('CF API error: ' + (data.comment || 'Unknown'));
+    return {
+      contest: data.result.contest,
+      problems: data.result.problems,
+      rows: data.result.rows.map(row => ({
+        rank: row.rank,
+        party: row.party,
+        points: row.points,
+        penalty: row.penalty,
+        problemResults: row.problemResults,
+      })),
+    };
+  } catch (err) {
+    clearTimeout(timeout);
+    if (err.name === 'AbortError') {
+      throw new Error('Codeforces API timed out. Please try again.');
+    }
+    throw err;
+  }
 }
 
 export function estimateVirtualRating(userPoints, userPenalty, standings, currentUserRating = 1200) {

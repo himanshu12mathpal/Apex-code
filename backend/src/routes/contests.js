@@ -106,7 +106,13 @@ router.post('/virtual', authMiddleware, async (req, res) => {
     }
 
     // Get real standings for comparison
-    const standings = await getContestStandings(contestId);
+    let standings;
+    try {
+      standings = await getContestStandings(contestId);
+    } catch (cfErr) {
+      console.error('CF Standings Error:', cfErr.message);
+      return res.status(400).json({ error: `Could not fetch contest #${contestId}: ${cfErr.message}` });
+    }
 
     // Calculate user's points (each solved problem = its points from standings)
     const userPoints = solvedProblems || 0;
@@ -140,8 +146,8 @@ router.post('/virtual', authMiddleware, async (req, res) => {
       })),
     });
   } catch (error) {
-    console.error('Virtual Contest Error:', error);
-    res.status(500).json({ error: 'Failed to process virtual contest' });
+    console.error('Virtual Contest Error:', error.message, error.stack);
+    res.status(500).json({ error: error.message || 'Failed to process virtual contest' });
   }
 });
 
