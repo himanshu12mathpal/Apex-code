@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import { BarChart3, Clock, Trophy, ArrowUpRight, Calendar, Target, Globe } from 'lucide-react';
 import { useAuth } from '../context/AuthContext';
+import API_BASE from '../config';
 
 const containerVariants = {
   hidden: { opacity: 0 },
@@ -27,11 +28,11 @@ export default function Analytics() {
   async function fetchAnalyticsData() {
     try {
       // Fetch 6 months CF contests (~180 days)
-      const cfRes = await fetch('/api/contests/recent/2?days=180');
+      const cfRes = await fetch(`${API_BASE}/api/contests/recent/2?days=180`);
       // Fetch ~25 AtCoder ABC contests (which is approx 6 months of weekly contests)
-      const acRes = await fetch('/api/contests/atcoder/abc?limit=25');
+      const acRes = await fetch(`${API_BASE}/api/contests/atcoder/abc?limit=25`);
       // Fetch Real User Rating
-      const apexRes = await fetch('/api/rating/unified', {
+      const apexRes = await fetch(`${API_BASE}/api/rating/unified`, {
         headers: { Authorization: `Bearer ${token}` }
       });
 

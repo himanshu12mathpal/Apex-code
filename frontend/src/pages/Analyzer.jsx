@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import toast from 'react-hot-toast';
 import { useAuth } from '../context/AuthContext';
+import API_BASE from '../config';
 import {
   BrainCircuit, Code2, Lightbulb, AlertTriangle,
   CheckCircle2, Zap, Clock, ArrowRight, Cpu, Eye,
@@ -44,7 +45,7 @@ export default function Analyzer() {
     setAnalysis(null);
 
     try {
-      const res = await fetch('/api/analyzer/analyze', {
+      const res = await fetch(`${API_BASE}/api/analyzer/analyze`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${token}` },
         body: JSON.stringify({

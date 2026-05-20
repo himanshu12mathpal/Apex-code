@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import toast from 'react-hot-toast';
 import { useAuth } from '../context/AuthContext';
+import API_BASE from '../config';
 import {
   Swords, Play, Clock, Trophy, Target, TrendingUp,
   ChevronRight, AlertCircle, CheckCircle2, XCircle,
@@ -39,16 +40,16 @@ export default function Contests() {
     setLoading(true);
     try {
       const [upRes, recRes, abcRes] = await Promise.all([
-        fetch('/api/contests/upcoming'),
-        fetch(`/api/contests/recent/${division}?days=180`),
-        fetch('/api/contests/atcoder/abc?limit=25'),
+        fetch(`${API_BASE}/api/contests/upcoming`),
+        fetch(`${API_BASE}/api/contests/recent/${division}?days=180`),
+        fetch(`${API_BASE}/api/contests/atcoder/abc?limit=25`),
       ]);
       if (upRes.ok) setUpcoming((await upRes.json()).slice(0, 8));
       if (recRes.ok) setRecent(await recRes.json());
       if (abcRes.ok) setAbcContests(await abcRes.json());
 
       if (user.codeforcesHandle) {
-        const ratingRes = await fetch(`/api/contests/rating/${user.codeforcesHandle}`);
+        const ratingRes = await fetch(`${API_BASE}/api/contests/rating/${user.codeforcesHandle}`);
         if (ratingRes.ok) {
           const data = await ratingRes.json();
           setCfUser(data.user);
@@ -65,7 +66,7 @@ export default function Contests() {
 
   async function fetchRegistered() {
     try {
-      const res = await fetch('/api/contests/registered', { headers: { Authorization: `Bearer ${token}` } });
+      const res = await fetch(`${API_BASE}/api/contests/registered`, { headers: { Authorization: `Bearer ${token}` } });
       if (res.ok) {
         const data = await res.json();
         setRegisteredIds(new Set(data.map(c => c.contestId)));
@@ -75,7 +76,7 @@ export default function Contests() {
 
   async function handleRegister(contest) {
     try {
-      const res = await fetch('/api/contests/register', {
+      const res = await fetch(`${API_BASE}/api/contests/register`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${token}` },
         body: JSON.stringify({
@@ -121,7 +122,7 @@ export default function Contests() {
     if (!vContestId || !vSolved) return toast.error('Contest ID and Solved Count required');
     const toastId = toast.loading('Calculating virtual rating...');
     try {
-      const res = await fetch('/api/contests/virtual', {
+      const res = await fetch(`${API_BASE}/api/contests/virtual`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${token}` },
         body: JSON.stringify({ contestId: vContestId, solvedProblems: parseInt(vSolved), totalPenalty: parseInt(vPenalty || 0) }),

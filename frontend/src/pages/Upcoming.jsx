@@ -3,6 +3,7 @@ import { motion } from 'framer-motion';
 import { Calendar, Clock, ArrowUpRight, Bell, CheckCircle2 } from 'lucide-react';
 import toast from 'react-hot-toast';
 import { useAuth } from '../context/AuthContext';
+import API_BASE from '../config';
 
 const containerVariants = {
   hidden: { opacity: 0 },
@@ -28,7 +29,7 @@ export default function Upcoming() {
   async function fetchUpcoming() {
     try {
       setLoading(true);
-      const res = await fetch('/api/contests/upcoming');
+      const res = await fetch(`${API_BASE}/api/contests/upcoming`);
       if (res.ok) {
         const data = await res.json();
         // Separate by platform
@@ -47,7 +48,7 @@ export default function Upcoming() {
 
   async function fetchRegistered() {
     try {
-      const res = await fetch('/api/contests/registered', { headers: { Authorization: `Bearer ${token}` } });
+      const res = await fetch(`${API_BASE}/api/contests/registered`, { headers: { Authorization: `Bearer ${token}` } });
       if (res.ok) {
         const data = await res.json();
         setRegisteredIds(new Set(data.map(c => c.contestId)));
@@ -57,7 +58,7 @@ export default function Upcoming() {
 
   async function handleRegister(contest) {
     try {
-      const res = await fetch('/api/contests/register', {
+      const res = await fetch(`${API_BASE}/api/contests/register`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${token}` },
         body: JSON.stringify({

@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import toast from 'react-hot-toast';
 import { useAuth } from '../context/AuthContext';
+import API_BASE from '../config';
 import {
   History, Code2, BrainCircuit, Clock, Cpu, 
   CheckCircle2, AlertTriangle, ChevronDown, ChevronUp
@@ -29,7 +30,7 @@ export default function Submissions() {
 
   const fetchSubmissions = async () => {
     try {
-      const res = await fetch('/api/analyzer/problems', {
+      const res = await fetch(`${API_BASE}/api/analyzer/problems`, {
         headers: { Authorization: `Bearer ${token}` }
       });
       const data = await res.json();

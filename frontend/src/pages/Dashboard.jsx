@@ -11,6 +11,7 @@ import {
   BarChart, Bar
 } from 'recharts';
 import { useAuth } from '../context/AuthContext';
+import API_BASE from '../config';
 
 const containerVariants = {
   hidden: { opacity: 0 },
@@ -50,20 +51,20 @@ export default function Dashboard() {
 
   async function fetchApexRating() {
     try {
-      const res = await fetch('/api/rating/unified', { headers: { Authorization: `Bearer ${token}` } });
+      const res = await fetch(`${API_BASE}/api/rating/unified`, { headers: { Authorization: `Bearer ${token}` } });
       if (res.ok) setApexData(await res.json());
     } catch (err) { console.error('ApexRating fetch error:', err); }
   }
 
   async function fetchDashboardData() {
     try {
-      const resStats = await fetch(`/api/dashboard/stats?userId=${user.id}`, {
+      const resStats = await fetch(`${API_BASE}/api/dashboard/stats?userId=${user.id}`, {
         headers: { Authorization: `Bearer ${token}` }
       });
       const dataStats = await resStats.json();
       setStats(dataStats);
 
-      const resWeekly = await fetch(`/api/dashboard/weekly?userId=${user.id}`, {
+      const resWeekly = await fetch(`${API_BASE}/api/dashboard/weekly?userId=${user.id}`, {
         headers: { Authorization: `Bearer ${token}` }
       });
       const dataWeekly = await resWeekly.json();
@@ -85,7 +86,7 @@ export default function Dashboard() {
   async function fetchTasks() {
     try {
       const today = new Date().toISOString().split('T')[0];
-      const res = await fetch(`/api/tasks?date=${today}`, {
+      const res = await fetch(`${API_BASE}/api/tasks?date=${today}`, {
         headers: { Authorization: `Bearer ${token}` }
       });
       const data = await res.json();
@@ -97,7 +98,7 @@ export default function Dashboard() {
 
   async function fetchRecentProblems() {
     try {
-      const res = await fetch(`/api/analyzer/problems?userId=${user.id}`, {
+      const res = await fetch(`${API_BASE}/api/analyzer/problems?userId=${user.id}`, {
         headers: { Authorization: `Bearer ${token}` }
       });
       const data = await res.json();
@@ -111,7 +112,7 @@ export default function Dashboard() {
     e.preventDefault();
     if (!newTaskText.trim()) return;
     try {
-      const res = await fetch('/api/tasks', {
+      const res = await fetch(`${API_BASE}/api/tasks`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${token}` },
         body: JSON.stringify({ text: newTaskText, type: newTaskType })
@@ -128,7 +129,7 @@ export default function Dashboard() {
 
   async function toggleTask(taskId) {
     try {
-      await fetch(`/api/tasks/${taskId}`, {
+      await fetch(`${API_BASE}/api/tasks/${taskId}`, {
         method: 'PUT',
         headers: { Authorization: `Bearer ${token}` }
       });
@@ -140,7 +141,7 @@ export default function Dashboard() {
 
   async function deleteTask(taskId) {
     try {
-      await fetch(`/api/tasks/${taskId}`, {
+      await fetch(`${API_BASE}/api/tasks/${taskId}`, {
         method: 'DELETE',
         headers: { Authorization: `Bearer ${token}` }
       });
