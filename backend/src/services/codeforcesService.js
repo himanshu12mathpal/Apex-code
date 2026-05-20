@@ -133,12 +133,13 @@ export async function getUserRatingHistory(handle) {
 /**
  * Fetch standings for a specific contest (for virtual rating estimation)
  */
-export async function getContestStandings(contestId, count = 500) {
+export async function getContestStandings(contestId) {
   const controller = new AbortController();
   const timeout = setTimeout(() => controller.abort(), 15000); // 15s timeout
   try {
+    // Codeforces now blocks extra parameters (like from/count) for non-gym contests without an API key!
     const res = await fetch(
-      `${CF_API}/contest.standings?contestId=${contestId}&from=1&count=${count}`,
+      `${CF_API}/contest.standings?contestId=${contestId}`,
       { signal: controller.signal }
     );
     clearTimeout(timeout);
@@ -147,13 +148,8 @@ export async function getContestStandings(contestId, count = 500) {
     return {
       contest: data.result.contest,
       problems: data.result.problems,
-      rows: data.result.rows.map(row => ({
-        rank: row.rank,
-        party: row.party,
-        points: row.points,
-        penalty: row.penalty,
-        problemResults: row.problemResults,
-      })),
+      // We don't map all 10,000+ rows to save memory. We only need the length for totalParticipants.
+      rows: { length: data.result.rows ? data.result.rows.length : 0 },
     };
   } catch (err) {
     clearTimeout(timeout);
