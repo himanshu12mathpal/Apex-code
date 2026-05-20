@@ -1,0 +1,315 @@
+@import "tailwindcss";
+
+@theme {
+  --font-sans: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  --font-mono: 'JetBrains Mono', 'Fira Code', monospace;
+
+  /* ── Tailwind color tokens (default = dark, overridden by :root / [data-theme]) ── */
+  --color-background: #09090b;
+  --color-surface: #111113;
+  --color-card: #141416;
+  --color-card-hover: #1c1c20;
+  --color-input: #111113;
+
+  --color-text-primary: #fafafa;
+  --color-text-secondary: #a1a1aa;
+  --color-text-tertiary: #52525b;
+
+  --color-border-primary: #1f1f23;
+  --color-border-secondary: #27272a;
+  --color-border-hover: #3f3f46;
+
+  --color-brand: #818cf8;
+  --color-brand-hover: #6366f1;
+  --color-brand-light: rgba(129, 140, 248, 0.1);
+  --color-brand-secondary: #a78bfa;
+
+  --color-primary: #818cf8;
+  --color-primary-hover: #6366f1;
+  --color-primary-light: rgba(129, 140, 248, 0.1);
+  --color-secondary: #a78bfa;
+
+  --color-success: #34d399;
+  --color-success-light: rgba(52, 211, 153, 0.1);
+  --color-warning: #fbbf24;
+  --color-warning-light: rgba(251, 191, 36, 0.1);
+  --color-danger: #ef4444;
+  --color-danger-light: rgba(239, 68, 68, 0.1);
+  --color-info: #38bdf8;
+}
+
+/* ─── CSS Custom Properties (NOT in @layer so they're always available) ─── */
+:root {
+  /* ─── Light Mode (Premium Off-White #f8f5f0) ─── */
+  --bg-primary: #f8f5f0;
+  --bg-secondary: #f0ede6;
+  --bg-tertiary: #e8e4dc;
+  --bg-card: #fcfcf9;
+  --bg-card-hover: #ffffff;
+  --bg-input: #fcfcf9;
+
+  --text-primary: #18181b;
+  --text-secondary: #52525b;
+  --text-tertiary: #a1a1aa;
+
+  --border-primary: #e2ded6;
+  --border-secondary: #d1cdc5;
+  --border-hover: #a1a1aa;
+
+  --accent-primary: #2563eb;
+  --accent-primary-hover: #1d4ed8;
+  --accent-primary-light: rgba(37, 99, 235, 0.08);
+  --accent-secondary: #4f46e5;
+
+  --accent-success: #10b981;
+  --accent-success-light: rgba(16, 185, 129, 0.08);
+  --accent-warning: #f59e0b;
+  --accent-warning-light: rgba(245, 158, 11, 0.08);
+  --accent-danger: #ef4444;
+  --accent-danger-light: rgba(239, 68, 68, 0.08);
+  --accent-info: #0ea5e9;
+
+  --shadow-xs: 0 1px 2px rgba(0, 0, 0, 0.03);
+  --shadow-sm: 0 2px 4px rgba(0, 0, 0, 0.04), 0 1px 2px rgba(0, 0, 0, 0.02);
+  --shadow-md: 0 8px 16px -4px rgba(0, 0, 0, 0.05), 0 4px 8px -4px rgba(0, 0, 0, 0.03);
+  --shadow-lg: 0 20px 24px -4px rgba(0, 0, 0, 0.06), 0 8px 10px -4px rgba(0, 0, 0, 0.03);
+
+  --radius-sm: 8px;
+  --radius-md: 12px;
+  --radius-lg: 16px;
+  --radius-xl: 20px;
+
+  /* Override @theme tokens for light mode */
+  --color-background: #f8f5f0;
+  --color-surface: #f0ede6;
+  --color-card: #fcfcf9;
+  --color-card-hover: #ffffff;
+  --color-input: #fcfcf9;
+  --color-text-primary: #18181b;
+  --color-text-secondary: #52525b;
+  --color-text-tertiary: #a1a1aa;
+  --color-border-primary: #e2ded6;
+  --color-border-secondary: #d1cdc5;
+  --color-border-hover: #a1a1aa;
+  --color-brand: #2563eb;
+  --color-brand-hover: #1d4ed8;
+  --color-brand-light: rgba(37, 99, 235, 0.08);
+  --color-brand-secondary: #4f46e5;
+  --color-primary: #2563eb;
+  --color-primary-hover: #1d4ed8;
+  --color-primary-light: rgba(37, 99, 235, 0.08);
+  --color-secondary: #4f46e5;
+  --color-success: #10b981;
+  --color-success-light: rgba(16, 185, 129, 0.08);
+  --color-warning: #f59e0b;
+  --color-warning-light: rgba(245, 158, 11, 0.08);
+  --color-danger: #ef4444;
+  --color-danger-light: rgba(239, 68, 68, 0.08);
+  --color-info: #0ea5e9;
+}
+
+[data-theme="dark"] {
+  /* ─── Dark Mode (Premium Deep Space) ─── */
+  --bg-primary: #0a0a0a;
+  --bg-secondary: #121212;
+  --bg-tertiary: #1a1a1a;
+  --bg-card: #141414;
+  --bg-card-hover: #1c1c1c;
+  --bg-input: #121212;
+
+  --text-primary: #ffffff;
+  --text-secondary: #a1a1aa;
+  --text-tertiary: #71717a;
+
+  --border-primary: #222222;
+  --border-secondary: #2a2a2a;
+  --border-hover: #3f3f46;
+
+  --accent-primary: #5c6bf2;
+  --accent-primary-hover: #7380f3;
+  --accent-primary-light: rgba(92, 107, 242, 0.15);
+  --accent-secondary: #a78bfa;
+
+  --accent-success: #34d399;
+  --accent-success-light: rgba(52, 211, 153, 0.15);
+  --accent-warning: #fbbf24;
+  --accent-warning-light: rgba(251, 191, 36, 0.15);
+  --accent-danger: #f87171;
+  --accent-danger-light: rgba(248, 113, 113, 0.15);
+  --accent-info: #38bdf8;
+
+  --shadow-xs: 0 1px 2px rgba(0, 0, 0, 0.4);
+  --shadow-sm: 0 4px 6px rgba(0, 0, 0, 0.3), 0 1px 3px rgba(0, 0, 0, 0.2);
+  --shadow-md: 0 10px 15px -3px rgba(0, 0, 0, 0.5), 0 4px 6px -4px rgba(0, 0, 0, 0.4);
+  --shadow-lg: 0 20px 25px -5px rgba(0, 0, 0, 0.6), 0 8px 10px -6px rgba(0, 0, 0, 0.5);
+
+  /* Override @theme tokens for dark mode */
+  --color-background: #0a0a0a;
+  --color-surface: #121212;
+  --color-card: #141414;
+  --color-card-hover: #1c1c1c;
+  --color-input: #121212;
+  --color-text-primary: #ffffff;
+  --color-text-secondary: #a1a1aa;
+  --color-text-tertiary: #71717a;
+  --color-border-primary: #222222;
+  --color-border-secondary: #2a2a2a;
+  --color-border-hover: #3f3f46;
+  --color-brand: #5c6bf2;
+  --color-brand-hover: #7380f3;
+  --color-brand-light: rgba(92, 107, 242, 0.15);
+  --color-brand-secondary: #a78bfa;
+  --color-primary: #5c6bf2;
+  --color-primary-hover: #7380f3;
+  --color-primary-light: rgba(92, 107, 242, 0.15);
+  --color-secondary: #a78bfa;
+  --color-success: #34d399;
+  --color-success-light: rgba(52, 211, 153, 0.15);
+  --color-warning: #fbbf24;
+  --color-warning-light: rgba(251, 191, 36, 0.15);
+  --color-danger: #f87171;
+  --color-danger-light: rgba(248, 113, 113, 0.15);
+  --color-info: #38bdf8;
+}
+
+/* ─── All base element styles inside @layer base so Tailwind utilities can override ─── */
+@layer base {
+  *, *::before, *::after {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+  }
+
+  html {
+    scroll-behavior: smooth;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    text-rendering: optimizeLegibility;
+  }
+
+  body {
+    font-family: var(--font-sans);
+    background-color: var(--bg-primary);
+    color: var(--text-primary);
+    line-height: 1.6;
+    overflow-x: hidden;
+    transition: background-color 0.2s ease, color 0.2s ease;
+  }
+
+  /* ─── Scrollbar (thin, minimal) ─── */
+  ::-webkit-scrollbar { width: 6px; height: 6px; }
+  ::-webkit-scrollbar-track { background: transparent; }
+  ::-webkit-scrollbar-thumb { background: var(--border-secondary); border-radius: 99px; }
+  ::-webkit-scrollbar-thumb:hover { background: var(--border-hover); }
+
+  ::selection {
+    background: var(--accent-primary);
+    color: white;
+  }
+
+  /* ─── Input & Select base ─── */
+  input, select, textarea {
+    background-color: var(--bg-input);
+    color: var(--text-primary);
+    border: 1px solid var(--border-primary);
+    font-family: var(--font-sans);
+  }
+
+  input::placeholder, textarea::placeholder {
+    color: var(--text-tertiary);
+  }
+
+  /* ─── Button base ─── */
+  button {
+    font-family: var(--font-sans);
+  }
+}
+
+/* ─── Component styles in @layer components ─── */
+@layer components {
+  /* ─── Glass Panel ─── */
+  .glass-panel {
+    background: var(--bg-card);
+    border: 1px solid var(--border-primary);
+    border-radius: var(--radius-lg);
+    box-shadow: var(--shadow-xs);
+    transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+
+  .glass-panel:hover {
+    border-color: var(--border-hover);
+    box-shadow: var(--shadow-sm);
+  }
+
+  /* ─── Card hover lift ─── */
+  .card-hover {
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+  .card-hover:hover {
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-md);
+    border-color: var(--accent-primary-light);
+  }
+
+  /* ─── Typography helpers ─── */
+  .text-display {
+    font-weight: 700;
+    letter-spacing: -0.025em;
+    line-height: 1.2;
+  }
+
+  .text-label {
+    font-size: 11px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    color: var(--text-tertiary);
+  }
+
+  /* ─── Ambient Background ─── */
+  .ambient-bg {
+    position: fixed;
+    inset: 0;
+    background:
+      radial-gradient(ellipse at 20% 20%, rgba(99, 102, 241, 0.04), transparent 50%),
+      radial-gradient(ellipse at 80% 80%, rgba(139, 92, 246, 0.03), transparent 50%);
+    pointer-events: none;
+    z-index: -1;
+  }
+
+  /* ─── Smooth page transitions ─── */
+  .page-enter {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+  .page-enter-active {
+    opacity: 1;
+    transform: translateY(0);
+    transition: opacity 0.3s ease, transform 0.3s ease;
+  }
+}
+
+/* ─── Subtle ambient glow (body pseudo-element) ─── */
+body::before {
+  content: '';
+  position: fixed;
+  top: 0; left: 0;
+  width: 100%; height: 100%;
+  background:
+    radial-gradient(ellipse at 10% 20%, rgba(99, 102, 241, 0.03), transparent 50%),
+    radial-gradient(ellipse at 90% 80%, rgba(139, 92, 246, 0.02), transparent 50%);
+  pointer-events: none;
+  z-index: -1;
+}
+
+/* ─── Page Layout: prevent content overflow under sidebar ─── */
+main {
+  overflow-x: hidden;
+}
+
+/* ─── Mobile: top padding so hamburger button doesn't overlap content ─── */
+@media (max-width: 768px) {
+  main > * {
+    padding-top: calc(var(--space-top, 0px) + 3.5rem) !important;
+  }
+}
