@@ -4,7 +4,7 @@ import './index.css'
 import App from './App.jsx'
 
 // Intercept global fetch to prepend backend URL in production
-const apiBaseUrl = import.meta.env.VITE_API_URL || '';
+const apiBaseUrl = import.meta.env.VITE_API_URL || (import.meta.env.DEV ? '' : 'https://apex-code-backend.onrender.com');
 if (apiBaseUrl) {
   const originalFetch = window.fetch;
   window.fetch = async function (resource, options) {
